@@ -15,6 +15,10 @@ module VagrantPlugins
         error_key(:instance_ready_timeout)
       end
 
+      class ComputeError < VagrantShellError
+        error_key(:instance_ready_timeout)
+      end
+
       class InstanceReadyTimeout < VagrantShellError
         error_key(:instance_ready_timeout)
       end

@@ -21,7 +21,7 @@ module VagrantPlugins
           return nil if machine.id.nil?
 
           # Read the DNS info
-          host,port = `#{machine.config[:script]} ssh-info #{machine.id}`.split(/\s+/)[0,2]
+          host,port = `#{machine.provider_config.script} ssh-info #{machine.id}`.split(/\s+/)[0,2]
           return {
             :host => host,
             :port => port

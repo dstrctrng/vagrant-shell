@@ -61,9 +61,7 @@ module VagrantPlugins
       end
 
       def validate(machine)
-        errors = []
-
-        { "Shell Provider" => errors }
+        { "Shell Provider" => [ ] } 
       end
     end
   end

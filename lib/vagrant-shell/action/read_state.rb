@@ -21,7 +21,7 @@ module VagrantPlugins
           return :not_created if machine.id.nil?
 
           # Return the state
-          `#{machine.config[:script]} read-state #{machine.id}`
+          `#{machine.provider_config.script} read-state #{machine.id}`
         end
       end
     end

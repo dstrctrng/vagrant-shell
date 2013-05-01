@@ -32,8 +32,8 @@ module VagrantPlugins
 
           begin
             # Immediately save the ID since it is created at this point.
-            env[:machine].id = `#{machine.config[:script]} run-instance #{ami}`.split(/\s+/)[0]
-          rescue Shell::Compute::Error => e
+            env[:machine].id = `#{env[:machine].provider_config.script} run-instance #{ami}`.split(/\s+/)[0]
+          rescue Errors::ComputeError => e
             raise Errors::ShellError, :message => e.message
           end
 
