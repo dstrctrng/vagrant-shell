@@ -1,30 +1,30 @@
 begin
   require "vagrant"
 rescue LoadError
-  raise "The Vagrant AWS plugin must be run within Vagrant."
+  raise "The Vagrant Shell plugin must be run within Vagrant."
 end
 
 # This is a sanity check to make sure no one is attempting to install
 # this into an early Vagrant version.
 if Vagrant::VERSION < "1.2.0"
-  raise "The Vagrant AWS plugin is only compatible with Vagrant 1.2+"
+  raise "The Vagrant Shell plugin is only compatible with Vagrant 1.2+"
 end
 
 module VagrantPlugins
   module Shell
     class Plugin < Vagrant.plugin("2")
-      name "AWS"
+      name "Shell"
       description <<-DESC
       This plugin installs a provider that allows Vagrant to manage
-      machines in AWS (EC2/VPC).
+      machines with shell scripts.
       DESC
 
-      config(:aws, :provider) do
+      config(:shell, :provider) do
         require_relative "config"
         Config
       end
 
-      provider(:aws) do
+      provider(:shell) do
         # Setup logging and i18n
         setup_logging
         setup_i18n
@@ -36,7 +36,7 @@ module VagrantPlugins
 
       # This initializes the internationalization strings.
       def self.setup_i18n
-        I18n.load_path << File.expand_path("locales/en.yml", AWS.source_root)
+        I18n.load_path << File.expand_path("locales/en.yml", Shell.source_root)
         I18n.reload!
       end
 
@@ -62,7 +62,7 @@ module VagrantPlugins
         # Set the logging level on all "vagrant" namespaced
         # logs as long as we have a valid level.
         if level
-          logger = Log4r::Logger.new("vagrant_aws")
+          logger = Log4r::Logger.new("vagrant_shell")
           logger.outputters = Log4r::Outputter.stderr
           logger.level = level
           logger = nil

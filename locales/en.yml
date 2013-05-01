@@ -1,5 +1,5 @@
 en:
-  vagrant_aws:
+  vagrant_shell:
     already_created: |-
       The machine is already created.
     launching_instance: |-
@@ -25,7 +25,7 @@ en:
     waiting_for_ssh: |-
       Waiting for SSH to become available...
     warn_networks: |-
-      Warning! The AWS provider doesn't support any of the Vagrant
+      Warning! The Shell provider doesn't support any of the Vagrant
       high-level network configurations (`config.vm.network`). They
       will be silently ignored.
 
@@ -35,23 +35,23 @@ en:
       ami_required: |-
         An AMI must be configured via "ami"
       private_key_missing: |-
-        The specified private key for AWS could not be found
+        The specified private key for Shell could not be found
       region_required: |-
         A region must be specified via "region"
       secret_access_key_required: |-
         A secret access key is required via "secret_access_key"
 
     errors:
-      fog_error: |-
-        There was an error talking to AWS. The error message is shown
+      shell_error: |-
+        There was an error talking to Shell. The error message is shown
         below:
 
         %{message}
       instance_ready_timeout: |-
-        The instance never became "ready" in AWS. The timeout currently
+        The instance never became "ready" in Shell. The timeout currently
         set waiting for the instance to become ready is %{timeout} seconds.
         Please verify that the machine properly boots. If you need more time
-        set the `instance_ready_timeout` configuration on the AWS provider.
+        set the `instance_ready_timeout` configuration on the Shell provider.
       rsync_error: |-
         There was an error when attemping to rsync a share folder.
         Please inspect the error message below for more info.

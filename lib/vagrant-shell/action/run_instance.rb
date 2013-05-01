@@ -13,7 +13,7 @@ module VagrantPlugins
 
         def initialize(app, env)
           @app    = app
-          @logger = Log4r::Logger.new("vagrant_aws::action::run_instance")
+          @logger = Log4r::Logger.new("vagrant_shell::action::run_instance")
         end
 
         def call(env)
@@ -37,16 +37,16 @@ module VagrantPlugins
 
           # If there is no keypair then warn the user
           if !keypair
-            env[:ui].warn(I18n.t("vagrant_aws.launch_no_keypair"))
+            env[:ui].warn(I18n.t("vagrant_shell.launch_no_keypair"))
           end
 
           # If there is a subnet ID then warn the user
           if subnet_id
-            env[:ui].warn(I18n.t("vagrant_aws.launch_vpc_warning"))
+            env[:ui].warn(I18n.t("vagrant_shell.launch_vpc_warning"))
           end
 
           # Launch!
-          env[:ui].info(I18n.t("vagrant_aws.launching_instance"))
+          env[:ui].info(I18n.t("vagrant_shell.launching_instance"))
           env[:ui].info(" -- Type: #{instance_type}")
           env[:ui].info(" -- AMI: #{ami}")
           env[:ui].info(" -- Region: #{region}")
@@ -73,18 +73,18 @@ module VagrantPlugins
               options[security_group_key] = security_groups
             end
 
-            server = env[:aws_compute].servers.create(options)
-          rescue Fog::Compute::AWS::NotFound => e
+            server = env[:shell_compute].servers.create(options)
+          rescue Shell::Compute::NotFound => e
             # Invalid subnet doesn't have its own error so we catch and
             # check the error message here.
             if e.message =~ /subnet ID/
-              raise Errors::FogError,
+              raise Errors::ShellError,
                 :message => "Subnet ID not found: #{subnet_id}"
             end
 
             raise
-          rescue Fog::Compute::AWS::Error => e
-            raise Errors::FogError, :message => e.message
+          rescue Shell::Compute::Error => e
+            raise Errors::ShellError, :message => e.message
           end
 
           # Immediately save the ID since it is created at this point.
@@ -94,16 +94,16 @@ module VagrantPlugins
           env[:metrics]["instance_ready_time"] = Util::Timer.time do
             tries = region_config.instance_ready_timeout / 2
 
-            env[:ui].info(I18n.t("vagrant_aws.waiting_for_ready"))
+            env[:ui].info(I18n.t("vagrant_shell.waiting_for_ready"))
             begin
-              retryable(:on => Fog::Errors::TimeoutError, :tries => tries) do
+              retryable(:on => Shell::Errors::TimeoutError, :tries => tries) do
                 # If we're interrupted don't worry about waiting
                 next if env[:interrupted]
 
                 # Wait for the server to be ready
                 server.wait_for(2) { ready? }
               end
-            rescue Fog::Errors::TimeoutError
+            rescue Shell::Errors::TimeoutError
               # Delete the instance
               terminate(env)
 
@@ -118,7 +118,7 @@ module VagrantPlugins
           if !env[:interrupted]
             env[:metrics]["instance_ssh_time"] = Util::Timer.time do
               # Wait for SSH to be ready.
-              env[:ui].info(I18n.t("vagrant_aws.waiting_for_ssh"))
+              env[:ui].info(I18n.t("vagrant_shell.waiting_for_ssh"))
               while true
                 # If we're interrupted then just back out
                 break if env[:interrupted]
@@ -130,7 +130,7 @@ module VagrantPlugins
             @logger.info("Time for SSH ready: #{env[:metrics]["instance_ssh_time"]}")
 
             # Ready and booted!
-            env[:ui].info(I18n.t("vagrant_aws.ready"))
+            env[:ui].info(I18n.t("vagrant_shell.ready"))
           end
 
           # Terminate the instance if we were interrupted

@@ -8,20 +8,20 @@ module VagrantPlugins
       class ReadSSHInfo
         def initialize(app, env)
           @app    = app
-          @logger = Log4r::Logger.new("vagrant_aws::action::read_ssh_info")
+          @logger = Log4r::Logger.new("vagrant_shell::action::read_ssh_info")
         end
 
         def call(env)
-          env[:machine_ssh_info] = read_ssh_info(env[:aws_compute], env[:machine])
+          env[:machine_ssh_info] = read_ssh_info(env[:shell_compute], env[:machine])
 
           @app.call(env)
         end
 
-        def read_ssh_info(aws, machine)
+        def read_ssh_info(shell, machine)
           return nil if machine.id.nil?
 
           # Find the machine
-          server = aws.servers.get(machine.id)
+          server = shell.servers.get(machine.id)
           if server.nil?
             # The machine can't be found
             @logger.info("Machine couldn't be found, assuming it got destroyed.")

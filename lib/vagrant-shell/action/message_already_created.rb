@@ -7,7 +7,7 @@ module VagrantPlugins
         end
 
         def call(env)
-          env[:ui].info(I18n.t("vagrant_aws.already_created"))
+          env[:ui].info(I18n.t("vagrant_shell.already_created"))
           @app.call(env)
         end
       end

@@ -240,7 +240,7 @@ module VagrantPlugins
       def validate(machine)
         errors = []
 
-        errors << I18n.t("vagrant_aws.config.region_required") if @region.nil?
+        errors << I18n.t("vagrant_shell.config.region_required") if @region.nil?
 
         if @region
           # Get the configuration for the region we're using and validate only
@@ -248,13 +248,13 @@ module VagrantPlugins
           config = get_region_config(@region)
 
           if !config.use_iam_profile
-            errors << I18n.t("vagrant_aws.config.access_key_id_required") if \
+            errors << I18n.t("vagrant_shell.config.access_key_id_required") if \
               config.access_key_id.nil?
-            errors << I18n.t("vagrant_aws.config.secret_access_key_required") if \
+            errors << I18n.t("vagrant_shell.config.secret_access_key_required") if \
               config.secret_access_key.nil?
           end
 
-          errors << I18n.t("vagrant_aws.config.ami_required") if config.ami.nil?
+          errors << I18n.t("vagrant_shell.config.ami_required") if config.ami.nil?
         end
 
         { "AWS Provider" => errors }
