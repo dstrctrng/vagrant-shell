@@ -13,26 +13,10 @@ module VagrantPlugins
         end
 
         def call(env)
-          # Get the region we're going to booting up in
-          region = env[:machine].provider_config.region
-
-          # Get the configs
-          region_config     = env[:machine].provider_config.get_region_config(region)
-
           # Build the shell config
           shell_config = {
-            :provider              => :shell,
-            :region                => region
+            :provider              => :shell
           }
-          if region_config.use_iam_profile
-            shell_config[:use_iam_profile] = True
-          else
-            shell_config[:shell_access_key_id] = region_config.access_key_id
-            shell_config[:shell_secret_access_key] = region_config.secret_access_key
-          end
-
-          shell_config[:endpoint] = region_config.endpoint if region_config.endpoint
-          shell_config[:version]  = region_config.version if region_config.version
 
           @logger.info("Connecting to Shell...")
           env[:shell_compute] = Shell::Compute.new(shell_config)
