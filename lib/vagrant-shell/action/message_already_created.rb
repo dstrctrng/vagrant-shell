@@ -1,5 +1,5 @@
 module VagrantPlugins
-  module AWS
+  module Shell
     module Action
       class MessageAlreadyCreated
         def initialize(app, env)

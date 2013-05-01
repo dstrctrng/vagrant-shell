@@ -5,7 +5,7 @@ require "vagrant/util/subprocess"
 require "vagrant/util/scoped_hash_override"
 
 module VagrantPlugins
-  module AWS
+  module Shell
     module Action
       # This middleware uses `rsync` to sync the folders over to the
       # AWS instance.
