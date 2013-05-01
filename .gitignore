@@ -2,11 +2,12 @@
 .DS_Store
 
 # Bundler/Rubygems
-*.gem
+/*.gem
 .bundle
 pkg/*
 tags
-Gemfile.lock
+#Gemfile.lock
+/vendor/bundle
 
 # Vagrant
 .vagrant
