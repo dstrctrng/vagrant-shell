@@ -14,8 +14,6 @@ Gem::Specification.new do |s|
   s.required_rubygems_version = ">= 1.3.6"
   s.rubyforge_project         = "vagrant-shell"
 
-  s.add_runtime_dependency "fog", "~> 1.10.0"
-
   # The following block of code determines the files that should be included
   # in the gem. It does this by reading all the files in the directory where
   # this gemspec is, and parsing out the ignored files from the gitignore.
