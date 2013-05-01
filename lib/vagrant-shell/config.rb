@@ -18,10 +18,16 @@ module VagrantPlugins
       # @return [String]
       attr_accessor :user_data
 
+      # The shell script implementing some tech
+      # 
+      # @return [String]
+      attr_accessor :script
+
       def initialize
         @ami                    = UNSET_VALUE
         @instance_ready_timeout = UNSET_VALUE
         @user_data              = UNSET_VALUE
+        @script                 = UNSET_VALUE
 
         # Internal state (prefix with __ so they aren't automatically
         # merged)
@@ -46,6 +52,9 @@ module VagrantPlugins
 
         # User Data is nil by default
         @user_data = nil if @user_data == UNSET_VALUE
+
+        # No default shell script
+        @script = nil if @script == UNSET_VALUE
 
         # Mark that we finalized
         @__finalized = true

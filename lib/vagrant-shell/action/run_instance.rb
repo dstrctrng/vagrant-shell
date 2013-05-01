@@ -31,14 +31,8 @@ module VagrantPlugins
           env[:ui].info(" -- AMI: #{ami}")
 
           begin
-            options = {
-              :image_id           => ami,
-              :user_data          => user_data
-            }
-
             # Immediately save the ID since it is created at this point.
-            system("echo server.create #{options[:image_id]} #{options[:user_data]}")
-            env[:machine].id = rand(900) + 100
+            env[:machine].id = `#{machine.config[:script]} run-instance #{ami}`.split(/\s+/)[0]
           rescue Shell::Compute::Error => e
             raise Errors::ShellError, :message => e.message
           end

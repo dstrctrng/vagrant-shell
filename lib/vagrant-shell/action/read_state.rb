@@ -21,8 +21,7 @@ module VagrantPlugins
           return :not_created if machine.id.nil?
 
           # Return the state
-          system("echo server.state #{machine.id}")
-          return "random-state-#{rand(100000)}"
+          `#{machine.config[:script]} read-state #{machine.id}`
         end
       end
     end
