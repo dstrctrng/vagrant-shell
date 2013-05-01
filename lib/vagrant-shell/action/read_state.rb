@@ -12,25 +12,17 @@ module VagrantPlugins
         end
 
         def call(env)
-          env[:machine_state_id] = read_state(env[:shell_compute], env[:machine])
+          env[:machine_state_id] = read_state(env[:machine])
 
           @app.call(env)
         end
 
-        def read_state(shell, machine)
+        def read_state(machine)
           return :not_created if machine.id.nil?
 
-          # Find the machine
-          server = shell.servers.get(machine.id)
-          if server.nil? || [:"shutting-down", :terminated].include?(server.state.to_sym)
-            # The machine can't be found
-            @logger.info("Machine not found or terminated, assuming it got destroyed.")
-            machine.id = nil
-            return :not_created
-          end
-
           # Return the state
-          return server.state.to_sym
+          system("echo server.state #{machine.id}")
+          return "random-state-#{rand(100000)}"
         end
       end
     end

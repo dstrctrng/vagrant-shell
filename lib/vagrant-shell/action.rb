@@ -12,7 +12,6 @@ module VagrantPlugins
       def self.action_destroy
         Vagrant::Action::Builder.new.tap do |b|
           b.use ConfigValidate
-          b.use ConnectShell
           b.use TerminateInstance
         end
       end
@@ -39,7 +38,6 @@ module VagrantPlugins
       def self.action_read_ssh_info
         Vagrant::Action::Builder.new.tap do |b|
           b.use ConfigValidate
-          b.use ConnectShell
           b.use ReadSSHInfo
         end
       end
@@ -50,7 +48,6 @@ module VagrantPlugins
       def self.action_read_state
         Vagrant::Action::Builder.new.tap do |b|
           b.use ConfigValidate
-          b.use ConnectShell
           b.use ReadState
         end
       end
@@ -88,7 +85,6 @@ module VagrantPlugins
       def self.action_up
         Vagrant::Action::Builder.new.tap do |b|
           b.use ConfigValidate
-          b.use ConnectShell
           b.use Call, IsCreated do |env, b2|
             if env[:result]
               b2.use MessageAlreadyCreated
@@ -105,7 +101,6 @@ module VagrantPlugins
 
       # The autoload farm
       action_root = Pathname.new(File.expand_path("../action", __FILE__))
-      autoload :ConnectShell, action_root.join("connect_shell")
       autoload :IsCreated, action_root.join("is_created")
       autoload :MessageAlreadyCreated, action_root.join("message_already_created")
       autoload :MessageNotCreated, action_root.join("message_not_created")

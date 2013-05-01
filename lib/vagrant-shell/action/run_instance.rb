@@ -1,4 +1,5 @@
 require "log4r"
+require "pp"
 
 require 'vagrant/util/retryable'
 
@@ -21,7 +22,7 @@ module VagrantPlugins
           env[:metrics] ||= {}
 
           # Get the configs
-          provider_config env[:machine].provider_config
+          provider_config = env[:machine].provider_config
           ami                = provider_config.ami
           user_data          = provider_config.user_data
 
@@ -35,13 +36,13 @@ module VagrantPlugins
               :user_data          => user_data
             }
 
-            server = env[:shell_compute].servers.create(options)
+            # Immediately save the ID since it is created at this point.
+            system("echo server.create #{options[:image_id]} #{options[:user_data]}")
+            env[:machine].id = rand(900) + 100
           rescue Shell::Compute::Error => e
             raise Errors::ShellError, :message => e.message
           end
 
-          # Immediately save the ID since it is created at this point.
-          env[:machine].id = server.id
 
           # Wait for the instance to be ready first
           env[:metrics]["instance_ready_time"] = Util::Timer.time do
@@ -54,7 +55,7 @@ module VagrantPlugins
                 next if env[:interrupted]
 
                 # Wait for the server to be ready
-                server.wait_for(2) { ready? }
+                true
               end
             rescue Shell::Errors::TimeoutError
               # Delete the instance

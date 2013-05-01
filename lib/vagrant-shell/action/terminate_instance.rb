@@ -11,11 +11,9 @@ module VagrantPlugins
         end
 
         def call(env)
-          server = env[:shell_compute].servers.get(env[:machine].id)
-
           # Destroy the server and remove the tracking ID
           env[:ui].info(I18n.t("vagrant_shell.terminating"))
-          server.destroy
+          system("echo server.destroy #{env[:machine].id}")
           env[:machine].id = nil
 
           @app.call(env)
