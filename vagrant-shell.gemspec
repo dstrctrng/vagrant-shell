@@ -1,25 +1,20 @@
 $:.unshift File.expand_path("../lib", __FILE__)
-require "vagrant-aws/version"
+require "vagrant-shell/version"
 
 Gem::Specification.new do |s|
-  s.name          = "vagrant-aws"
-  s.version       = VagrantPlugins::AWS::VERSION
+  s.name          = "vagrant-shell"
+  s.version       = VagrantPlugins::Shell::VERSION
   s.platform      = Gem::Platform::RUBY
   s.authors       = "Mitchell Hashimoto"
   s.email         = "mitchell@hashicorp.com"
   s.homepage      = "http://www.vagrantup.com"
-  s.summary       = "Enables Vagrant to manage machines in EC2 and VPC."
-  s.description   = "Enables Vagrant to manage machines in EC2 and VPC."
+  s.summary       = "Enables Vagrant to manage machines using shell scripts"
+  s.description   = "Enables Vagrant to manage machines using shell scripts"
 
   s.required_rubygems_version = ">= 1.3.6"
-  s.rubyforge_project         = "vagrant-aws"
+  s.rubyforge_project         = "vagrant-shell"
 
   s.add_runtime_dependency "fog", "~> 1.10.0"
-
-  s.add_development_dependency "rake"
-  s.add_development_dependency "rspec-core", "~> 2.12.2"
-  s.add_development_dependency "rspec-expectations", "~> 2.12.1"
-  s.add_development_dependency "rspec-mocks", "~> 2.12.1"
 
   # The following block of code determines the files that should be included
   # in the gem. It does this by reading all the files in the directory where
