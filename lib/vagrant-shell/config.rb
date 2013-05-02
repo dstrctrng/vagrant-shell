@@ -3,10 +3,10 @@ require "vagrant"
 module VagrantPlugins
   module Shell
     class Config < Vagrant.plugin("2", :config)
-      # The ID of the AMI to use.
+      # The ID of the Image to use.
       #
       # @return [String]
-      attr_accessor :ami
+      attr_accessor :image
 
       # The timeout to wait for an instance to become ready.
       #
@@ -23,11 +23,17 @@ module VagrantPlugins
       # @return [String]
       attr_accessor :script
 
+      # The shell script run-instance args
+      # 
+      # @return [String]
+      attr_accessor :run_args
+
       def initialize
-        @ami                    = UNSET_VALUE
+        @image                  = UNSET_VALUE
         @instance_ready_timeout = UNSET_VALUE
         @user_data              = UNSET_VALUE
         @script                 = UNSET_VALUE
+        @run_args               = UNSET_VALUE
 
         # Internal state (prefix with __ so they aren't automatically
         # merged)
@@ -44,8 +50,8 @@ module VagrantPlugins
       end
 
       def finalize!
-        # AMI must be nil, since we can't default that
-        @ami = nil if @ami == UNSET_VALUE
+        # Image must be nil, since we can't default that
+        @image = nil if @image == UNSET_VALUE
 
         # Set the default timeout for waiting for an instance to be ready
         @instance_ready_timeout = 120 if @instance_ready_timeout == UNSET_VALUE
@@ -55,6 +61,9 @@ module VagrantPlugins
 
         # No default shell script
         @script = nil if @script == UNSET_VALUE
+
+        # No rub args by default
+        @run_args = [] if @run_args == UNSET_VALUE
 
         # Mark that we finalized
         @__finalized = true

@@ -23,16 +23,17 @@ module VagrantPlugins
 
           # Get the configs
           provider_config = env[:machine].provider_config
-          ami                = provider_config.ami
+          image              = provider_config.image
           user_data          = provider_config.user_data
+          run_args           = provider_config.run_args
 
           # Launch!
           env[:ui].info(I18n.t("vagrant_shell.launching_instance"))
-          env[:ui].info(" -- AMI: #{ami}")
+          env[:ui].info(" -- Image: #{image}")
 
           begin
             # Immediately save the ID since it is created at this point.
-            env[:machine].id = `#{env[:machine].provider_config.script} run-instance #{ami}`.split(/\s+/)[0]
+            env[:machine].id = `#{env[:machine].provider_config.script} run-instance #{image} #{run_args.join(" ")}`.split(/\s+/)[0]
           rescue Errors::ComputeError => e
             raise Errors::ShellError, :message => e.message
           end

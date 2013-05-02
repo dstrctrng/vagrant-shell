@@ -22,8 +22,8 @@ en:
       will be silently ignored.
 
     config:
-      ami_required: |-
-        An AMI must be configured via "ami"
+      image_required: |-
+        An Image must be configured via "image"
       private_key_missing: |-
         The specified private key for Shell could not be found
 
