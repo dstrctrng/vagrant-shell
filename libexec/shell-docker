@@ -1,0 +1,24 @@
+#!/bin/bash
+
+cmd="$1"; shift
+case "$cmd" in
+  run-instance)
+    image="$1"; shift
+    docker run -d "$image" "$@"
+    ;;
+  terminate-instance)
+    instance="$1"; shift
+    docker stop "$instance" 
+    ;;
+  ssh-info)
+    instance="$1"; shift
+    echo "$(docker inspect $instance| awk '$1 ~ /IpAddress/ { split($2,ip,"\""); print ip[2] }')" 22
+    ;;
+  read-state)
+    instance="$1"; shift
+    docker inspect "$instance"
+    ;;
+  *)
+    exit 1
+    ;;
+esac
