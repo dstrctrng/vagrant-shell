@@ -1,3 +1,5 @@
+# Word in progress, still QA'ing the demo
+
 # Vagrant Shell Provider
 
 This is a [Vagrant](http://www.vagrantup.com) 1.2+ plugin that adds a
@@ -7,6 +9,19 @@ for Xen, Docker, etc.
 
 **NOTE:** This plugin requires Vagrant 1.2+,
 
+vagrant-shell is forked from vagrant-aws with the fog/aws parts replaced
+with a shell script that takes four command arguments:
+
+    script run-instance $image_id command args... -> $instance_id
+    script terminate-instance $instance_id
+    script ssh-info $instance_id -> ssh-host ssh-port
+    script read-state $instance_id -> *
+
 ## Usage
 
-TODO - this gem is a work in progress
+I don't know how to instal vagrant-shell as a plugin, so this repo uses
+bundler and cached gems.  Requires ruby 1.9.3 (vagrant).
+
+    bundle --local --path vendor/bundle
+    bundle exec vagrant up --provider shell
+    bundle exec vagrant ssh
