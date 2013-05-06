@@ -5,7 +5,7 @@ Vagrant.configure("2") do |config|
 
   config.vm.provider :shell do |shell, override|
     # override docker image name with shell.image
-    # shell.image = "ubuntu"
+    shell.image = "ubuntu:13.04"
     
     # vagrant-shell comes with shell-docker to support docker containers
     shell.script = File.expand_path("../libexec/shell-docker", __FILE__)
