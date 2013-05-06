@@ -1,4 +1,4 @@
-# Word in progress, still QA'ing the demo
+# Work in progress, still QA'ing the demo
 
 # Vagrant Shell Provider
 
@@ -24,10 +24,14 @@ See `libexec/shell-docker` for an example.
 I don't know how to instal vagrant-shell as a plugin, so this repo uses
 bundler and cached gems.  Requires ruby 1.9.3 (vagrant).
 
-    bundle --local --path vendor/bundle
+Run make to bundle gems and install the demo vagrant box:
+
+    make
+
+Bring up the docker container:
+
     bundle exec vagrant up --provider shell
+
+SSH into the container:
+
     bundle exec vagrant ssh
-
-Add the docker vagrant box:
-
-    bundle exec vagrant box add vagrant-shell-demo vagrant-shell-demo.box
