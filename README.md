@@ -17,6 +17,8 @@ with a shell script that takes four command arguments:
     script ssh-info $instance_id -> ssh-host ssh-port
     script read-state $instance_id -> *
 
+See `libexec/shell-docker` for an example.
+
 ## Usage
 
 I don't know how to instal vagrant-shell as a plugin, so this repo uses
@@ -25,3 +27,7 @@ bundler and cached gems.  Requires ruby 1.9.3 (vagrant).
     bundle --local --path vendor/bundle
     bundle exec vagrant up --provider shell
     bundle exec vagrant ssh
+
+Add the docker vagrant box:
+
+    bundle exec vagrant box add vagrant-shell-demo vagrant-shell-demo.box
