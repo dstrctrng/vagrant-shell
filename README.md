@@ -1,5 +1,3 @@
-# Work in progress, still QA'ing the demo
-
 # Vagrant Shell Provider
 
 This is a [Vagrant](http://www.vagrantup.com) 1.2+ plugin that adds a
@@ -7,15 +5,11 @@ shell provider to Vagrant, allowing Vagrant to control and provision
 machines using shell scripts.  It's meant to be customized with scripts
 for Xen, Docker, etc.
 
-**NOTE:** This plugin requires Vagrant 1.2+,
+**NOTE:** This plugin requires Vagrant 1.2+, ruby 1.9, and bundler.
 
 vagrant-shell is forked from vagrant-aws with the fog/aws parts replaced
-with a shell script that takes four command arguments:
-
-    script run-instance $image_id command args... -> $instance_id
-    script terminate-instance $instance_id
-    script ssh-info $instance_id -> ssh-host ssh-port
-    script read-state $instance_id -> *
+with a shell script that takes four sub-commands: run-instance,
+terminate-instance, ssh-info, and read-state.
 
 See `libexec/shell-docker` for an example.
 

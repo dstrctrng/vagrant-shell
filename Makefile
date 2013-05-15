@@ -10,5 +10,5 @@ vagrant:
 	bundle exec vagrant box add vagrant-shell vagrant-shell.box
 
 shell:
-	bundle exec vagrant up || true
+	bundle exec vagrant up --provider shell || true
 	bundle exec vagrant ssh
