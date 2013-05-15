@@ -15,11 +15,10 @@ See `libexec/shell-docker` for an example.
 
 ## Usage
 
-I don't know how to instal vagrant-shell as a plugin, so this repo uses
-bundler and cached gems.  Requires ruby 1.9.3 (vagrant).
+I don't know how to install vagrant-shell as a plugin, so this repo uses
+bundler and cached gems.
 
-Run make to bundle gems, pull the ubuntu image, and install the demo vagrant
-box:
+Run make to bundle gems and install the demo vagrant box:
 
     make
 
@@ -37,3 +36,7 @@ It sets up the root user with an ssh key suitable for vagrant.
 SSH into the container:
 
     bundle exec vagrant ssh
+
+## TODO
+
+Bundle changes to docker containers a vagrant boxes.
