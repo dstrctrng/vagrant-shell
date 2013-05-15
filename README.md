@@ -11,7 +11,8 @@ terminate-instance, ssh-info, and read-state.
 
 See `libexec/shell-docker` for an example.
 
-**NOTE:** This plugin requires Vagrant 1.2+, ruby 1.9, and bundler.
+**NOTE:** This plugin requires Vagrant 1.2+, ruby 1.9, and bundler.  This
+README was tested using Ubuntu Raring.
 
 ## Usage
 
