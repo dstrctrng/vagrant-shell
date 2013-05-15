@@ -1,11 +1,11 @@
 require "vagrant-shell"
 
 Vagrant.configure("2") do |config|
-  config.vm.box = "vagrant-shell-demo"
+  config.vm.box = "vagrant-shell"
 
   config.vm.provider :shell do |shell, override|
     # override docker image name with shell.image
-    #shell.image = "ubuntu:13.04"
+    shell.image = "ubuntu"
     
     # vagrant-shell comes with shell-docker to support docker containers
     shell.script = File.expand_path("../libexec/shell-docker", __FILE__)
