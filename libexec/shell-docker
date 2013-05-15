@@ -1,4 +1,8 @@
-#!/bin/bash
+#!/bin/bash -efu
+
+if [[ -n "${VAGRANT_LOG:-}" ]]; then
+  set -x
+fi
 
 cmd="$1"; shift
 case "$cmd" in

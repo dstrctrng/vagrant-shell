@@ -32,6 +32,9 @@ Bring up the docker container:
 
     bundle exec vagrant up --provider shell
 
+The commands passed to the container are sourced from `libexec/init-docker`.
+It sets up the root user with an ssh key suitable for vagrant.
+
 SSH into the container:
 
     bundle exec vagrant ssh
