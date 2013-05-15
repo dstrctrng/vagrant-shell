@@ -39,4 +39,6 @@ SSH into the container:
 
 ## TODO
 
-Bundle changes to docker containers a vagrant boxes.
+vagrant package
+vagrant status
+vagrant reload?
