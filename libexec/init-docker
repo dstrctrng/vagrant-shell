@@ -1,4 +1,3 @@
-echo "nameserver 8.8.8.8" > /etc/resolv.conf
 DEBIAN_FRONTEND=noninteractive apt-get install -y wget openssh-server
 install -d -m 0700 -o root -g root /root/.ssh
 wget -O - https://raw.github.com/mitchellh/vagrant/master/keys/vagrant.pub > /root/.ssh/authorized_keys.tmp
