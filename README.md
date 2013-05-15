@@ -26,16 +26,16 @@ Download the ubuntu docker image:
 
     docker pull ubuntu
 
-Bring up the docker container:
+Bring up the docker containers:
 
     bundle exec vagrant up --provider shell
 
 The commands passed to the container are sourced from `libexec/init-docker`.
 It sets up the root user with an ssh key suitable for vagrant.
 
-SSH into the container:
+SSH into one of the the containers:
 
-    bundle exec vagrant ssh
+    bundle exec vagrant ssh default
 
 ## TODO
 

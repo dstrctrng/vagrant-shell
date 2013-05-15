@@ -12,4 +12,4 @@ vagrant:
 shell:
 	docker pull ubuntu
 	bundle exec vagrant up --provider shell || true
-	bundle exec vagrant ssh
+	bundle exec vagrant ssh default
