@@ -18,9 +18,14 @@ See `libexec/shell-docker` for an example.
 I don't know how to instal vagrant-shell as a plugin, so this repo uses
 bundler and cached gems.  Requires ruby 1.9.3 (vagrant).
 
-Run make to bundle gems and install the demo vagrant box:
+Run make to bundle gems, pull the ubuntu image, and install the demo vagrant
+box:
 
     make
+
+Download the ubuntu docker image:
+
+    docker pull ubuntu
 
 Bring up the docker container:
 
