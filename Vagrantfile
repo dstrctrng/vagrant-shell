@@ -1,5 +1,7 @@
 require "vagrant-shell"
 
+ENV['VAGRANT_DEFAULT_PROVIDER'] = 'shell'
+
 def read_script pth_script
   File.read(pth_script).split(/[ \t]*[\r\n]+/).join("; ")
 end

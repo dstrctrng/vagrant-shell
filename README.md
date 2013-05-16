@@ -26,7 +26,7 @@ docker image:
 
 Bring up the docker containers:
 
-    bundle exec vagrant up --provider shell
+    bundle exec vagrant up
 
 The commands passed to the container are sourced from `libexec/init-docker`.
 It sets up the root user with an ssh key suitable for vagrant.
