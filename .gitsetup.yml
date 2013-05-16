@@ -1,0 +1,4 @@
+---
+remotes:
+  primary: git@github.com:destructuring/vagrant-shell
+  secondary: git@bitbucket.org:destructuring/vagrant-shell
