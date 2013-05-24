@@ -41,6 +41,8 @@ Vagrant.configure("2") do |config|
   # don't copy anything to /vagrant
   config.vm.synced_folder ".", "/vagrant", :id => "vagrant-root", :disabled => true
 
+  config.vm.provision :shell, :inline => "uname -a"
+
   [ :default, :memcache, :mysql, :redis, :app, :admin ].each do |mm|
     config.vm.define mm do |container|
       container.vm.provider :shell do |shell, override|
