@@ -38,8 +38,16 @@ SSH into one of the the containers:
 
     bundle exec vagrant ssh default
 
+## Testing without docker
+
+If docker is not available, use script `shell-self` to pretend the
+localhost is the vagrant instance.  Be careful since `vagrant ssh` will
+connect to the localhost.
+
+Prepend `env SHELL_SCRIPT=self` to `bundle exec vagrant` so the
+`Vagrantfile` will adjust its docker behavior to suit localhost.
+
 ## TODO
 
 vagrant package
-vagrant status
 vagrant reload?
