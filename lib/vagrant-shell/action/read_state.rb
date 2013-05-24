@@ -21,7 +21,11 @@ module VagrantPlugins
           return :not_created if machine.id.nil?
 
           # Return the state
-          `#{machine.provider_config.script} read-state #{machine.id}`
+          output = %x{ #{machine.provider_config.script} read-state #{machine.id} }
+          if $?.to_i > 0
+            raise Errors::ShellError, :message => "Failure: #{env[:machine].provider_config.script} read-state #{machine.id}"
+          end
+          output.strip
         end
       end
     end

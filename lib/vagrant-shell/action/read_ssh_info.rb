@@ -21,7 +21,12 @@ module VagrantPlugins
           return nil if machine.id.nil?
 
           # Read the DNS info
-          host,port = `#{machine.provider_config.script} ssh-info #{machine.id}`.split(/\s+/)[0,2]
+          output = %x{ #{machine.provider_config.script} ssh-info #{machine.id} }
+          if $?.to_i > 0
+            raise Errors::ShellError, :message => "Failure: #{env[:machine].provider_config.script} ssh-info #{machine.id}"
+          end
+
+          host,port = output.split(/\s+/)[0,2] # TODO check formatting
           return {
             :host => host,
             :port => port

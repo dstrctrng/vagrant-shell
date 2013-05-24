@@ -31,13 +31,13 @@ module VagrantPlugins
           env[:ui].info(I18n.t("vagrant_shell.launching_instance"))
           env[:ui].info(" -- Image: #{image}")
 
-          begin
-            # Immediately save the ID since it is created at this point.
-            env[:machine].id = `#{env[:machine].provider_config.script} run-instance #{image} #{run_args.join(" ")}`.split(/\s+/)[0]
-          rescue Errors::ComputeError => e
-            raise Errors::ShellError, :message => e.message
+          # Immediately save the ID since it is created at this point.
+          output = %x{ #{env[:machine].provider_config.script} run-instance #{image} #{run_args.join(" ")} }
+          if $?.to_i > 0
+            raise Errors::ShellError, :message => "Failure: #{env[:machine].provider_config.script} run-instance #{image} ..."
           end
-
+          
+          env[:machine].id = output.split(/\s+/)[0]
 
           # Wait for the instance to be ready first
           env[:metrics]["instance_ready_time"] = Util::Timer.time do
