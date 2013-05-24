@@ -1,7 +1,6 @@
 default: ready
 
 ready: bundler vagrant
-	docker pull ubuntu
 
 bundler:
 	bundle --local --path vendor/bundle

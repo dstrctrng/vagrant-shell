@@ -19,10 +19,13 @@ README was tested using Ubuntu Raring.
 I don't know how to install vagrant-shell as a plugin, so this repo uses
 bundler and cached gems.
 
-Run make to bundle gems, install the demo vagrant box, and download the ubuntu
-docker image:
+Run make to bundle gems, install the demo vagrant box:
 
     make
+
+Download the ubuntu docker image:
+
+    docker pull ubuntu
 
 Bring up the docker containers:
 
