@@ -3,10 +3,5 @@
 
 # Bundler/Rubygems
 /*.gem
-.bundle
 pkg/*
 tags
-/vendor/bundle
-
-# Vagrant
-.vagrant

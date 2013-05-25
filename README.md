@@ -14,10 +14,14 @@ See `libexec/shell-docker` for an example.
 **NOTE:** This plugin requires Vagrant 1.2+, ruby 1.9, and bundler.  This
 README was tested using Ubuntu Raring.
 
-## Usage
+## Demo
 
 I don't know how to install vagrant-shell as a plugin, so this repo uses
-bundler and cached gems.
+bundler and cached gems.  
+
+Go to the demo directory:
+
+    cd demo
 
 Run make to bundle gems, install the demo vagrant box:
 
