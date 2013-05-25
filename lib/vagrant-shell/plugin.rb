@@ -19,20 +19,24 @@ module VagrantPlugins
       machines with shell scripts.
       DESC
 
-      config(:shell, :provider) do
-        require_relative "config"
-        Config
+      def self.make_provider nm_provider
+        config(nm_provider, :provider) do
+          require_relative "config"
+          Config
+        end
+
+        provider(nm_provider) do
+          # Setup logging and i18n
+          setup_logging
+          setup_i18n
+
+          # Return the provider
+          require_relative "provider"
+          Provider
+        end
       end
 
-      provider(:shell) do
-        # Setup logging and i18n
-        setup_logging
-        setup_i18n
-
-        # Return the provider
-        require_relative "provider"
-        Provider
-      end
+      make_provider(:shell)
 
       # This initializes the internationalization strings.
       def self.setup_i18n

@@ -72,6 +72,16 @@ module VagrantPlugins
       def validate(machine)
         { "Shell Provider" => [ ] } 
       end
+
+      # utilities
+      def read_script pth_script
+        File.read(pth_script).split(/[ \t]*[\r\n]+/).join("; ")
+      end
+
+      def find_script name
+        File.expand_path("../../../libexec/shell-#{name}", __FILE__)
+      end
+
     end
   end
 end

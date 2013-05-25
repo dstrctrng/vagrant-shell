@@ -2,6 +2,9 @@ require "vagrant-shell"
 
 ENV['VAGRANT_DEFAULT_PROVIDER'] = 'shell'
 
+VagrantPlugins::Shell::Plugin.make_provider(:shell_aws_prod)
+VagrantPlugins::Shell::Plugin.make_provider(:shell_aws_stag)
+
 if %w(self).member? ENV['SHELL_SCRIPT']
   module Vagrant
     module Util
@@ -27,18 +30,8 @@ if %w(self).member? ENV['SHELL_SCRIPT']
   end 
 end
 
-def read_script pth_script
-  File.read(pth_script).split(/[ \t]*[\r\n]+/).join("; ")
-end
-
-def find_script name
-  File.expand_path("../libexec/shell-#{name}", __FILE__)
-end
-
 Vagrant.configure("2") do |config|
   config.vm.box = "vagrant-shell"
-
-  config.vm.provision :shell, :inline => "uname -a"
 
   script = ENV['SHELL_SCRIPT'] || "docker"
 
@@ -50,7 +43,7 @@ Vagrant.configure("2") do |config|
       shell.image = ENV['AWS_AMI']
 
       # vagrant-shell comes with shell-docker to support docker containers
-      shell.script = find_script(script)
+      shell.script = shell.find_script(script)
     end
   else
     [ :default, :memcache, :mysql, :redis, :app, :admin ].each do |mm|
@@ -68,10 +61,10 @@ Vagrant.configure("2") do |config|
           shell.image = "ubuntu"
 
           # vagrant-shell comes with shell-docker to support docker containers
-          shell.script = find_script(script)
+          shell.script = shell.find_script(script)
       
           # set up vagrant keys, install/configure/run Ubuntu sshd
-          shell.run_args = [ "bash -c '#{read_script File.expand_path("../libexec/init-docker", __FILE__)}'" ]
+          shell.run_args = [ "bash -c '#{shell.read_script File.expand_path("../libexec/init-docker", __FILE__)}'" ]
         end
       end
     end
