@@ -22,10 +22,6 @@ module VagrantPlugins
       class InstanceReadyTimeout < VagrantShellError
         error_key(:instance_ready_timeout)
       end
-
-      class RsyncError < VagrantShellError
-        error_key(:rsync_error)
-      end
     end
   end
 end

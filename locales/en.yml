@@ -8,18 +8,12 @@ en:
       Instance is not created. Please run `vagrant up` first.
     ready: |-
       Machine is booted and ready for use!
-    rsync_folder: |-
-      Rsyncing folder: %{hostpath} => %{guestpath}
     terminating: |-
       Terminating the instance...
     waiting_for_ready: |-
       Waiting for instance to become "ready"...
     waiting_for_ssh: |-
       Waiting for SSH to become available...
-    warn_networks: |-
-      Warning! The Shell provider doesn't support any of the Vagrant
-      high-level network configurations (`config.vm.network`). They
-      will be silently ignored.
 
     config:
       image_required: |-
@@ -38,13 +32,6 @@ en:
         set waiting for the instance to become ready is %{timeout} seconds.
         Please verify that the machine properly boots. If you need more time
         set the `instance_ready_timeout` configuration on the Shell provider.
-      rsync_error: |-
-        There was an error when attemping to rsync a share folder.
-        Please inspect the error message below for more info.
-
-        Host path: %{hostpath}
-        Guest path: %{guestpath}
-        Error: %{stderr}
 
     states:
       short_not_created: |-

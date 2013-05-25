@@ -38,9 +38,6 @@ end
 Vagrant.configure("2") do |config|
   config.vm.box = "vagrant-shell"
 
-  # don't copy anything to /vagrant
-  config.vm.synced_folder ".", "/vagrant", :id => "vagrant-root", :disabled => true
-
   config.vm.provision :shell, :inline => "uname -a"
 
   script = ENV['SHELL_SCRIPT'] || "docker"
