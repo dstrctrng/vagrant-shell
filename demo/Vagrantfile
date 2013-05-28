@@ -29,8 +29,8 @@ require "vagrant-shell"
 ENV['VAGRANT_DEFAULT_PROVIDER'] = 'shell'
 
 # make aliases for :shell provider
-(ENV['SHELL_PROVIDERS'] || "").split.each do |alias|
-  VagrantPlugins::Shell::Plugin.make_provider(alias.to_sym)
+(ENV['SHELL_PROVIDERS'] || "").split.each do |nm_provider|
+  VagrantPlugins::Shell::Plugin.make_provider(nm_provider.to_sym)
 end
 
 Vagrant.configure("2") do |config|
@@ -38,7 +38,8 @@ Vagrant.configure("2") do |config|
   config.vm.box = "vagrant-shell"
 
   # default to docker script
-  case (ENV['SHELL_SCRIPT'] || "docker")
+  script = (ENV['SHELL_SCRIPT'] || "docker")
+  case script
   when "aws"
     config.vm.provider :shell do |shell, override|
       # aws images has ubuntu user
