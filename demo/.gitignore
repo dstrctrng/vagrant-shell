@@ -1,4 +1,4 @@
 .DS_Store
-.bundle
-/vendor/bundle
-.vagrant
+/templates/.bundle
+/templates/vendor/bundle
+/templates/*/vagrant-shell.box
