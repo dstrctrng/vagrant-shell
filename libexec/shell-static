@@ -16,7 +16,7 @@ case "$cmd" in
     image="$1"; shift
     debug "run-instance $image"
     debug "run-instance args: $* 1>&2"
-    echo $RANDOM
+    echo "$image"
     ;;
   terminate-instance)
     instance="$1"; shift
@@ -26,7 +26,7 @@ case "$cmd" in
     instance="$1"; shift
     debug "ssh-info $instance"
     debug "ssh-info: 127.0.0.1 22"
-    echo "127.0.0.1 22"
+    echo "${instance} 22"
     ;;
   read-state)
     instance="$1"; shift

@@ -1,75 +1,30 @@
-# fool vagrant into using ssh-agent keys instead of a fixed key on file
-module Vagrant
-  module Util
-    class Platform
-      def self.solaris?
-        true
-      end
-    end
-  end
-end
-
-require "net/ssh"
-
-module Net::SSH
-  class << self
-    alias_method :old_start, :start
-    
-    def start(host, username, opts)
-      opts[:keys_only] = false
-      self.old_start(host, username, opts)
-    end
-  end
-end 
-
 # load the shell provider as it was not installed as a plugin
 require "vagrant-shell"
-
-# don't need --provider shell
-ENV['VAGRANT_DEFAULT_PROVIDER'] = 'shell'
-
-# make aliases for :shell provider
-(ENV['SHELL_PROVIDERS'] || "").split.each do |nm_provider|
-  VagrantPlugins::Shell::Plugin.make_provider(nm_provider.to_sym)
-end
+require "vagrant-shell/ssh-agent"
+require "vagrant-shell/env-config"
 
 Vagrant.configure("2") do |config|
-  # need a vagrant-shell box for each provider
   config.vm.box = "vagrant-shell"
+  config.ssh.username = (ENV['SHELL_LOGNAME'] || ENV['LOGNAME']) if ENV['SHELL_LOGNAME']
+  config.ssh.private_key_path = ENV['SHELL_SSH_PRIVATE'] if ENV['SHELL_SSH_PRIVATE']
 
-  # default to docker script
-  script = (ENV['SHELL_SCRIPT'] || "docker")
+  script = ENV['SHELL_SCRIPT']
   case script
   when "aws"
-    config.vm.provider :shell do |shell, override|
-      # aws images has ubuntu user
-      shell.image = ENV['AWS_AMI']
-      override.ssh.username = "ubuntu"
-      override.ssh.private_key_path = ENV['AWS_SSH_PRIVATE']
-
-      # vagrant-shell comes with shell-docker to support docker containers
+    config.vm.provider script.to_sym do |shell, override|
+      shell.image = ENV['SHELL_IMAGE'] if ENV['SHELL_IMAGE']
       shell.script = shell.find_script(script)
     end
-  when "self"
-    config.vm.provider :shell do |shell, override|
-      # login as current user
-      shell.image = %x{ uname -s }.strip
-      override.ssh.username = ENV['LOGNAME']
-
-      # vagrant-shell comes with shell-docker to support docker containers
+  when "static"
+    config.vm.provider script.to_sym do |shell, override|
+      shell.image = ENV['SHELL_IMAGE'] if ENV['SHELL_IMAGE']
       shell.script = shell.find_script(script)
     end
   when "docker"
-    config.vm.provider :shell do |shell, override|
-      # public docker ubuntu only has root user
-      shell.image = "ubuntu"
-      override.ssh.username = "root"
-
-      # vagrant-shell comes with shell-docker to support docker containers
+    config.vm.provider script.to_sym do |shell, override|
+      shell.image = ENV['SHELL_IMAGE'] if ENV['SHELL_IMAGE']
       shell.script = shell.find_script(script)
-  
-      # set up vagrant keys, install/configure/run Ubuntu sshd
-      shell.run_args = [ "bash -c '#{shell.read_script File.expand_path("../libexec/init-docker", __FILE__)}'" ]
+      shell.run_args = [ "bash -c '#{shell.read_script File.expand_path("../../libexec/init-docker", __FILE__)}'" ]
     end
   end
 end
