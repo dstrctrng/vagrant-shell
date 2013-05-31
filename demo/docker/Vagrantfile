@@ -1,4 +1,4 @@
-ENV['SHELL_SCRIPT'] ||= 'self'
+ENV['SHELL_SCRIPT'] ||= 'docker'
 
 ENV['SHELL_LOGNAME'] ||= 'root'
 ENV['SHELL_IMAGE'] ||= 'ubuntu'
@@ -16,6 +16,6 @@ Vagrant.configure("2") do |config|
   config.vm.provider script.to_sym do |shell, override|
     shell.image = ENV['SHELL_IMAGE'] if ENV['SHELL_IMAGE']
     shell.script = shell.find_script(script)
-    shell.run_args = shell.read_script(File.expand_path("../libexec/init-docker", __FILE__))
+    shell.run_args = [ "bash -c '#{shell.read_script(File.expand_path("../libexec/init-docker", __FILE__))}'" ]
   end
 end
