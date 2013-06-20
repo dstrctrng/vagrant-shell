@@ -2,6 +2,7 @@ ENV['SHELL_SCRIPT'] ||= 'docker'
 
 ENV['SHELL_LOGNAME'] ||= 'root'
 ENV['SHELL_IMAGE'] ||= 'ubuntu'
+ENV['SHELL_SSH_PRIVATE'] = "#{ENV['HOME']}/.vagrant.d/insecure_private_key"
 
 require "vagrant-shell"
 require "vagrant-shell/ssh-agent"

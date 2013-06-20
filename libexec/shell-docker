@@ -16,7 +16,7 @@ case "$cmd" in
     ;;
   ssh-info)
     instance="$1"; shift
-    echo "$(docker inspect $instance | awk '$1 ~ /IpAddress/ { split($2,ip,"\""); print ip[2] }')" 22
+    echo "$(docker inspect $instance | awk '$1 ~ /IPAddress/ { split($2,ip,"\""); print ip[2] }')" 22
     ;;
   read-state)
     instance="$1"; shift
