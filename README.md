@@ -11,8 +11,7 @@ terminate-instance, ssh-info, and read-state.
 
 See `libexec/shell-docker` for an example.
 
-**NOTE:** This plugin requires Vagrant 1.2+, ruby 1.9, and bundler.  This
-README was tested using Ubuntu Raring.
+**NOTE:** This plugin requires  ruby 1.9 and bundler
 
 ## Demo
 
@@ -21,37 +20,24 @@ bundler and cached gems.
 
 Go to the demo directory:
 
-    cd demo
-
-Run make to bundle gems, install the demo vagrant box:
-
-    make
+    cd demo/docker
 
 Download the ubuntu docker image:
 
     docker pull ubuntu
 
+Run make to bundle gems, install the demo vagrant box:
+
+    make
+
 Bring up the docker containers:
 
     bundle exec vagrant up
+    bundle exec vagrant status
 
 The commands passed to the container are sourced from `libexec/init-docker`.
 It sets up the root user with an ssh key suitable for vagrant.
 
 SSH into one of the the containers:
 
-    bundle exec vagrant ssh default
-
-## Testing without docker
-
-If docker is not available, use script `shell-self` to pretend the
-localhost is the vagrant instance.  Be careful since `vagrant ssh` will
-connect to the localhost.
-
-Prepend `env SHELL_SCRIPT=self` to `bundle exec vagrant` so the
-`Vagrantfile` will adjust its docker behavior to suit localhost.
-
-## TODO
-
-vagrant package
-vagrant reload?
+    bundle exec vagrant ssh ubuntu:precise
