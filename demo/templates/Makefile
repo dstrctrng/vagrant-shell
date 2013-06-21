@@ -17,4 +17,4 @@ vagrant: vagrant-shell.box
 
 shell:
 	bundle exec vagrant up || true
-	bundle exec vagrant ssh default
+	bundle exec vagrant ssh ubuntu:precise
