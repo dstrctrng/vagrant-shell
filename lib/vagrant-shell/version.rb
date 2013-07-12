@@ -1,5 +1,5 @@
 module VagrantPlugins
   module Shell
-    VERSION = "0.2.7"
+    VERSION = File.read(File.expand_path("../../../VERSION", __FILE__)).strip
   end
 end
