@@ -79,7 +79,7 @@ module VagrantPlugins
       end
 
       def find_script name
-        File.expand_path("../../../libexec/shell-#{name}", __FILE__)
+        ENV['PATH'].split(/:/).flatten.inject([]) { |acc, p| x = File.join(p,"shell-#{name.to_s}"); File.exists?(x) && acc << x; acc }.first
       end
 
     end
