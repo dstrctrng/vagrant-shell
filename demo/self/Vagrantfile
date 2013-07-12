@@ -1,7 +1,4 @@
-ENV['SHELL_SCRIPT'] ||= 'self'
-
-ENV['SHELL_LOGNAME'] ||= ENV['LOGNAME']
-ENV['SHELL_IMAGE'] ||= 'localhost'
+ENV['SHELL_SCRIPT'] ||= 'static'
 
 require "vagrant-shell"
 require "vagrant-shell/ssh-agent"
@@ -9,12 +6,11 @@ require "vagrant-shell/env-config"
 
 Vagrant.configure("2") do |config|
   config.vm.box = "vagrant-shell"
-  config.ssh.username = (ENV['SHELL_LOGNAME'] || ENV['LOGNAME']) if ENV['SHELL_LOGNAME']
-  config.ssh.private_key_path = ENV['SHELL_SSH_PRIVATE'] if ENV['SHELL_SSH_PRIVATE']
+  config.ssh.username = ENV['LOGNAME']
 
   script = ENV['SHELL_SCRIPT']
   config.vm.provider script.to_sym do |shell, override|
-    shell.image = ENV['SHELL_IMAGE'] if ENV['SHELL_IMAGE']
+    shell.image = 'localhost'
     shell.script = shell.find_script(script)
   end
 end

@@ -1,14 +1,12 @@
 ENV['SHELL_SCRIPT'] ||= 'ec2'
 
-ENV['SHELL_LOGNAME'] ||= 'ubuntu'
-
 require "vagrant-shell"
 require "vagrant-shell/ssh-agent"
 require "vagrant-shell/env-config"
 
 Vagrant.configure("2") do |config|
   config.vm.box = "vagrant-shell"
-  config.ssh.username = (ENV['SHELL_LOGNAME'] || ENV['LOGNAME']) if ENV['SHELL_LOGNAME']
+  config.ssh.username = "ubuntu"
   config.ssh.private_key_path = ENV['SHELL_SSH_PRIVATE'] if ENV['SHELL_SSH_PRIVATE']
 
   script = ENV['SHELL_SCRIPT']
