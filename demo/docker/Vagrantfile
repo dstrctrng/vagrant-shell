@@ -1,22 +1,18 @@
-ENV['SHELL_SCRIPT'] ||= 'docker'
-
 require "vagrant-shell"
 require "vagrant-shell/ssh-agent"
-require "vagrant-shell/env-config"
+
+VagrantPlugins::Shell::Plugin.make_provider(:docker)
 
 Vagrant.configure("2") do |config|
   config.vm.box = "vagrant-shell"
   config.ssh.username = "root"
   config.ssh.private_key_path = "#{ENV['HOME']}/.vagrant.d/insecure_private_key"
 
-  script = ENV['SHELL_SCRIPT']
-  releases = Array(ENV['SHELL_IMAGE'] || %w(ubuntu:precise ubuntu:quantal))
-
-  releases.each do |release|
+  %w(ubuntu:precise ubuntu:quantal).each do |release|
     config.vm.define release.to_sym do |guest|
-      guest.vm.provider script.to_sym do |shell, override|
+      guest.vm.provider :docker .to_sym do |shell, override|
         shell.image = release
-        shell.script = shell.find_script(script)
+        shell.script = shell.find_script(:docker)
         shell.run_args = [ "bash -c '#{shell.read_script(File.expand_path("../libexec/init-docker", __FILE__))}'" ]
       end
     end

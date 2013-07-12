@@ -1,5 +1,5 @@
 SCRIPT := $(shell basename $(PWD))
-SHELL_SCRIPT := $(SCRIPT)
+VAGRANT_DEFAULT_PROVIDER := $(SCRIPT)
 
 default: ready
 
