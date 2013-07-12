@@ -1,13 +1,13 @@
 require "vagrant-shell"
 require "vagrant-shell/ssh-agent"
 
-VagrantPlugins::Shell::Plugin.make_provider(:static)
+VagrantPlugins::Shell::Plugin.make_provider(:self)
 
 Vagrant.configure("2") do |config|
   config.vm.box = "vagrant-shell"
   config.ssh.username = ENV['LOGNAME']
 
-  config.vm.provider :static do |shell, override|
+  config.vm.provider :self do |shell, override|
     shell.image = 'localhost'
     shell.script = shell.find_script(:static)
   end
