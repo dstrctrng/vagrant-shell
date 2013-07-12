@@ -1,6 +1,8 @@
 SCRIPT := $(shell basename $(PWD))
 VAGRANT_DEFAULT_PROVIDER := $(SCRIPT)
 
+export VAGRANT_DEFAULT_PROVIDER
+
 default: ready
 
 ready: bundler vagrant
@@ -17,4 +19,4 @@ vagrant: vagrant-shell.box
 
 shell:
 	bundle exec vagrant up || true
-	bundle exec vagrant ssh ubuntu:precise
+	bundle exec vagrant ssh
