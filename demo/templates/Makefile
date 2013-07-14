@@ -20,3 +20,6 @@ vagrant: vagrant-shell.box
 shell:
 	bundle exec vagrant up || true
 	bundle exec vagrant ssh $(shell bundle exec vagrant status | awk '$$2 == "running" && $$3 == "(docker)" { vg[length(vg)] = $$1 } END { print vg[0] }')
+
+destroy:
+	bundle exec vagrant destroy -f
