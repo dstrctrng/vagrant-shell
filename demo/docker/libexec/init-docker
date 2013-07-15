@@ -1,17 +1,10 @@
 exec 1>/root/stdout.log
 exec 2>/root/stderr.log
 
-groupadd ubuntu || true
-useradd -m -g ubuntu ubuntu || true
-echo 'ubuntu ALL=(ALL) NOPASSWD:ALL' > /etc/sudoers.d/90-cloudimg-ubuntu
-chmod 400 /etc/sudoers.d/90-cloudimg-ubuntu
-
-DEBIAN_FRONTEND=noninteractive apt-get install -y wget
 install -d -m 0700 -o ubuntu -g ubuntu ~ubuntu/.ssh
 wget --no-check-certificate -O - https://raw.github.com/mitchellh/vagrant/master/keys/vagrant.pub > ~ubuntu/.ssh/authorized_keys.tmp
 install -m 0600 -o ubuntu -g ubuntu ~ubuntu/.ssh/authorized_keys.tmp ~ubuntu/.ssh/authorized_keys
 rm -f ~ubuntu/.ssh/authorized_keys.tmp
 
-DEBIAN_FRONTEND=noninteractive apt-get install -y openssh-server
 install -d -m 0755 -o root -g root /var/run/sshd
 exec /usr/sbin/sshd -D
