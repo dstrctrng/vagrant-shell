@@ -3,6 +3,8 @@ exec 2>/root/stderr.log
 
 groupadd ubuntu || true
 useradd -m -g ubuntu ubuntu || true
+echo 'ubuntu ALL=(ALL) NOPASSWD:ALL' > /etc/sudoers.d/90-cloudimg-ubuntu
+chmod 400 /etc/sudoers.d/90-cloudimg-ubuntu
 
 DEBIAN_FRONTEND=noninteractive apt-get install -y wget
 install -d -m 0700 -o ubuntu -g ubuntu ~ubuntu/.ssh
