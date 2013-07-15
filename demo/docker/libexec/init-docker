@@ -1,6 +1,3 @@
-exec 1>/root/stdout.log
-exec 2>/root/stderr.log
-
 install -d -m 0700 -o ubuntu -g ubuntu ~ubuntu/.ssh
 wget --no-check-certificate -O - https://raw.github.com/mitchellh/vagrant/master/keys/vagrant.pub > ~ubuntu/.ssh/authorized_keys.tmp
 install -m 0600 -o ubuntu -g ubuntu ~ubuntu/.ssh/authorized_keys.tmp ~ubuntu/.ssh/authorized_keys
