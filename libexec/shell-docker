@@ -8,6 +8,10 @@ cmd="$1"; shift
 case "$cmd" in
   run-instance)
     image="$1"; shift
+    cmd_bootstrap="$(which shell-docker-$image 2>&- || true)"
+    if [[ -x "$cmd_bootstrap" ]]; then
+      $cmd_bootstrap
+    fi
     docker run -d "$image" "$@"
     ;;
   terminate-instance)
