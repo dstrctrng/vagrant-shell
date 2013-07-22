@@ -14,7 +14,7 @@ Gem::Specification.new do |s|
   s.required_rubygems_version = ">= 1.3.6"
   s.rubyforge_project         = "vagrant-shell"
 
-  s.files         = Dir["lib/**"] + Dir["locales/**"]
+  s.files         = Dir["lib/**/*"] + Dir["locales/**/*"]
   s.files        += %w(CHANGELOG.md LICENSE README.md VERSION )
   s.require_path  = 'lib'
 end
