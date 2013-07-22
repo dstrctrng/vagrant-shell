@@ -6,3 +6,5 @@
 pkg/*
 tags
 /.bundle
+/vendor/cache
+/demo/templates/vendor/cache
