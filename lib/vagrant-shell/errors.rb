@@ -11,16 +11,20 @@ module VagrantPlugins
         error_key(:shell_error)
       end
 
-      class TimeoutError < VagrantShellError
-        error_key(:instance_ready_timeout)
-      end
-
-      class ComputeError < VagrantShellError
-        error_key(:instance_ready_timeout)
+      class InternalShellError < VagrantShellError
+        error_key(:internal_shell_error)
       end
 
       class InstanceReadyTimeout < VagrantShellError
         error_key(:instance_ready_timeout)
+      end
+
+      class RsyncError < VagrantShellError
+        error_key(:rsync_error)
+      end
+
+      class MkdirError < VagrantShellError
+        error_key(:mkdir_error)
       end
     end
   end

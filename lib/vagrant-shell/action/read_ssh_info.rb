@@ -12,24 +12,27 @@ module VagrantPlugins
         end
 
         def call(env)
-          env[:machine_ssh_info] = read_ssh_info(env[:machine])
+          env[:machine_ssh_info] = read_ssh_info(env[:script], env[:machine])
 
           @app.call(env)
         end
 
-        def read_ssh_info(machine)
+        def read_ssh_info(script, machine)
           return nil if machine.id.nil?
 
-          # Read the DNS info
-          output = %x{ #{machine.provider_config.script} ssh-info #{machine.id} }
-          if $?.to_i > 0
-            raise Errors::ShellError, :message => "Failure: #{env[:machine].provider_config.script} ssh-info #{machine.id}"
+          # Find the machine
+          server = script.servers.get(machine.id)
+          if server.nil?
+            # The machine can't be found
+            @logger.info("Machine couldn't be found, assuming it got destroyed.")
+            machine.id = nil
+            return nil
           end
 
-          host,port = output.split(/\s+/)[0,2] # TODO check formatting
+          # Read the DNS info
           return {
-            :host => host,
-            :port => port
+            :host => server.public_ip_address || server.dns_name || server.private_ip_address,
+            :port => server.public_port || server.private_port
           }
         end
       end
