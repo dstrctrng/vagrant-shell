@@ -1,0 +1,14 @@
+require "vagrant-shell"
+require "vagrant-shell/ssh-agent"
+
+VagrantPlugins::Shell::Plugin.make_provider(:self)
+
+Vagrant.configure("2") do |config|
+  config.vm.box = "vagrant-shell"
+  config.ssh.username = ENV['LOGNAME']
+
+  config.vm.provider :self do |shell, override|
+    shell.image = 'localhost'
+    shell.script = File.expand_path("../../../libexec/shell-static", __FILE__)
+  end
+end

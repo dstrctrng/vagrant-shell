@@ -12,20 +12,25 @@ module VagrantPlugins
         end
 
         def call(env)
-          env[:machine_state_id] = read_state(env[:machine])
+          env[:machine_state_id] = read_state(env[:script], env[:machine])
 
           @app.call(env)
         end
 
-        def read_state(machine)
+        def read_state(script, machine)
           return :not_created if machine.id.nil?
 
-          # Return the state
-          output = %x{ #{machine.provider_config.script} read-state #{machine.id} }
-          if $?.to_i > 0
-            raise Errors::ShellError, :message => "Failure: #{env[:machine].provider_config.script} read-state #{machine.id}"
+          # Find the machine
+          server = aws.servers.get(machine.id)
+          if server.nil? || [:"shutting-down", :terminated].include?(server.state.to_sym)
+            # The machine can't be found
+            @logger.info("Machine not found or terminated, assuming it got destroyed.")
+            machine.id = nil
+            return :not_created
           end
-          output.strip
+
+          # Return the state
+          return server.state.to_sym
         end
       end
     end

@@ -1,5 +1,5 @@
 require "log4r"
-require "pp"
+require 'json'
 
 require 'vagrant/util/retryable'
 
@@ -21,27 +21,35 @@ module VagrantPlugins
           # Initialize metrics if they haven't been
           env[:metrics] ||= {}
 
+          # Get the region we're going to booting up in
+          region = env[:machine].provider_config.region
+
           # Get the configs
-          provider_config = env[:machine].provider_config
-          image              = provider_config.image
-          user_data          = provider_config.user_data
-          run_args           = provider_config.run_args
+          region_config         = env[:machine].provider_config.get_region_config(region)
+          image                 = region_config.image
+          user_data             = region_config.user_data
+          run_args              = region_config.run_args
 
           # Launch!
           env[:ui].info(I18n.t("vagrant_shell.launching_instance"))
           env[:ui].info(" -- Image: #{image}")
 
-          # Immediately save the ID since it is created at this point.
-          output = %x{ #{env[:machine].provider_config.script} run-instance #{image} #{run_args.join(" ")} }
-          if $?.to_i > 0
-            raise Errors::ShellError, :message => "Failure: #{env[:machine].provider_config.script} run-instance #{image} ..."
+          begin
+            options = {
+              :image              => image,
+              :user_data          => user_data,
+              :run_args           => run_args
+            }
+
+            server = env[:script].servers.create(options)
           end
           
-          env[:machine].id = output.split(/\s+/)[0]
+          # Immediately save the ID since it is created at this point.
+          env[:machine].id = server.id
 
           # Wait for the instance to be ready first
           env[:metrics]["instance_ready_time"] = Util::Timer.time do
-            tries = provider_config.instance_ready_timeout / 2
+            tries = region_config.instance_ready_timeout / 2
 
             env[:ui].info(I18n.t("vagrant_shell.waiting_for_ready"))
             begin
@@ -50,7 +58,7 @@ module VagrantPlugins
                 next if env[:interrupted]
 
                 # Wait for the server to be ready
-                true
+                server.wait_for(2) { ready? }
               end
             rescue Shell::Errors::TimeoutError
               # Delete the instance
@@ -58,7 +66,7 @@ module VagrantPlugins
 
               # Notify the user
               raise Errors::InstanceReadyTimeout,
-                timeout: provider_config.instance_ready_timeout
+                timeout: region_config.instance_ready_timeout
             end
           end
 

@@ -18,14 +18,13 @@ module VagrantPlugins
       This plugin installs a provider that allows Vagrant to manage
       machines with shell scripts.
       DESC
-
       def self.make_provider nm_provider
         config(nm_provider, :provider) do
           require_relative "config"
           Config
         end
 
-        provider(nm_provider) do
+        provider(nm_provider, parallel: true) do
           # Setup logging and i18n
           setup_logging
           setup_i18n
@@ -35,8 +34,6 @@ module VagrantPlugins
           Provider
         end
       end
-
-      make_provider(:shell)
 
       # This initializes the internationalization strings.
       def self.setup_i18n

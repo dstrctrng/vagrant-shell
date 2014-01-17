@@ -1,0 +1,19 @@
+require "vagrant-shell"
+
+VagrantPlugins::Shell::Plugin.make_provider(:docker)
+
+Vagrant.configure("2") do |config|
+  config.vm.box = "vagrant-shell"
+  config.ssh.username = "ubuntu"
+  config.ssh.private_key_path = "#{ENV['HOME']}/.vagrant.d/insecure_private_key"
+
+  %w(precise raring).each do |release|
+    config.vm.define release.to_sym do |guest|
+      guest.vm.provider :docker .to_sym do |shell, override|
+        shell.image = release
+        shell.script = File.expand_path("../../../libexec/shell-docker", __FILE__)
+        shell.run_args = [ "bash -c '#{shell.read_script(File.expand_path("../libexec/init-docker", __FILE__))}'" ]
+      end
+    end
+  end
+end

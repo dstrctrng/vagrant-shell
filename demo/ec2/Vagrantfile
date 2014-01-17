@@ -1,0 +1,14 @@
+require "vagrant-shell"
+require "vagrant-shell/ssh-agent"
+
+VagrantPlugins::Shell::Plugin.make_provider(:ec2)
+
+Vagrant.configure("2") do |config|
+  config.vm.box = "vagrant-shell"
+  config.ssh.username = "ubuntu"
+
+  config.vm.provider :ec2 do |shell, override|
+    shell.image = ENV['SHELL_IMAGE']
+    shell.script = shell.script = File.expand_path("../../../libexec/shell-ec2", __FILE__)
+  end
+end
