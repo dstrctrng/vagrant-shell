@@ -20,11 +20,18 @@ case "$cmd" in
     ;;
   ssh-info)
     instance="$1"; shift
-    echo "$(docker inspect $instance | awk '$1 ~ /IPAddress/ { split($2,ip,"\""); print ip[2] }')" 22
+    echo "$(docker inspect -format '{{.NetworkSettings.IPAddress}}' $instance)" 22
     ;;
   read-state)
     instance="$1"; shift
-    echo "$(docker inspect $instance | awk '$1 ~ /Running/ { split($2,state,","); print(state[1] == "true" ? "running" : "not_created") }')"
+    case "$(docker inspect -tformat '{{.State.Running}}' $instance)" in
+      true)
+        echo running
+        ;;
+      *)
+        echo not_created
+        ;;
+    esac
     ;;
   *)
     exit 1
