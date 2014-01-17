@@ -12,7 +12,7 @@ case "$cmd" in
     if [[ -x "$cmd_bootstrap" ]]; then
       $cmd_bootstrap
     fi
-    docker run -privileged -d -w /root -h "$(basename "$(pwd)")" "$image" "$@"
+    docker run -privileged -n -d -w /root -h "$(basename "$(pwd)")" "$image" "$@"
     ;;
   terminate-instance)
     instance="$1"; shift
