@@ -24,7 +24,7 @@ case "$cmd" in
     ;;
   read-state)
     instance="$1"; shift
-    case "$(docker inspect -tformat '{{.State.Running}}' $instance)" in
+    case "$(docker inspect -format '{{.State.Running}}' $instance)" in
       true)
         echo running
         ;;
